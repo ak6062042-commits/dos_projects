@@ -1,20 +1,63 @@
 @echo off
+cls
 
-REM Project build script
+echo ===============================
+echo Building MiniOS using TASM
+echo ===============================
 
-if not exist ..\build mkdir ..\build
+rem Go to project root
+cd ..
 
-tasm ..\src\main.asm       /I ..\include /fo ..\build\main.obj
-tasm ..\src\input.asm      /I ..\include /fo ..\build\input.obj
-tasm ..\src\command.asm    /I ..\include /fo ..\build\command.obj
-tasm ..\src\screen.asm     /I ..\include /fo ..\build\screen.obj
-tasm ..\src\arithmetic.asm /I ..\include /fo ..\build\arithmetic.obj
-tasm ..\src\system.asm     /I ..\include /fo ..\build\system.obj
-tasm ..\src\history.asm    /I ..\include /fo ..\build\history.obj
-tasm ..\src\utils.asm      /I ..\include /fo ..\build\utils.obj
-
-tlink /t /x ..\build\main.obj ..\build\input.obj ..\build\command.obj ..\build\screen.obj ..\build\arithmetic.obj ..\build\system.obj ..\build\history.obj ..\build\utils.obj /fo ..\build\minios.exe
+rem Ensure build directory exists
+if not exist build mkdir build
 
 echo.
-echo Build completed! Executable: ..\build\minios.exe
+echo Assembling source files...
+echo.
+
+tasm /zi /m /iinclude src\main.asm,       build\main.obj
+tasm /zi /m /iinclude src\input.asm,      build\input.obj
+tasm /zi /m /iinclude src\command.asm,    build\command.obj
+tasm /zi /m /iinclude src\dispatcher.asm, build\dispatcher.obj
+tasm /zi /m /iinclude src\screen.asm,     build\screen.obj
+tasm /zi /m /iinclude src\arithmetic.asm, build\arithmetic.obj
+tasm /zi /m /iinclude src\system.asm,     build\system.obj
+tasm /zi /m /iinclude src\history.asm,    build\history.obj
+tasm /zi /m /iinclude src\utils.asm,      build\utils.obj
+
+if errorlevel 1 goto error
+
+echo.
+echo Linking MiniOS...
+echo.
+
+tlink /v ^
+ build\main.obj +
+ build\input.obj +
+ build\command.obj +
+ build\dispatcher.obj +
+ build\screen.obj +
+ build\arithmetic.obj +
+ build\system.obj +
+ build\history.obj +
+ build\utils.obj, ^
+ build\minios.exe
+
+if errorlevel 1 goto error
+
+echo.
+echo ===============================
+echo Build successful!
+echo Output: build\minios.exe
+echo ===============================
+goto end
+
+:error
+echo.
+echo *******************************
+echo BUILD FAILED!
+echo Check assembly errors.
+echo *******************************
+
+:end
 pause
