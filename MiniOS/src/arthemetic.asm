@@ -2,61 +2,143 @@
 .model small
 
 .data
+cmp_gfi db 0ah,0dh, "FIRST INPUT IS GREATER$"
+cmp_gsi db 0ah,0dh, "SECOND INPUT IN GREATER$"
+cmp_eq db 0ah,0dh, "BOTH INPUT ARE EQUAL$"
 .code
-PUBLIC unsigned_add
-PUBLIC unsigned_sub
-PUBLIC unsigned_mul
-PUBLIC unsigned_div
-PUBLIC signed_add
-PUBLIC signed_sub
-PUBLIC signed_mul
-PUBLIC signed_div
-PUBLIC COMPARE_SIGNED
-PUBLIC COMPARED_UNSIGNED
-;==================================================================
-unsigned_div PROC
-    xor dx,dx ; clear dx before div
-    div bx
-    ret
-unsigned_div ENDP
-unsigned_add PROC
-    add ax,bx
-    ret
-unsigned_add ENDP
-unsigned_mul PROC
-    mul bx
-    ret
-unsigned_mul ENDP
-unsigned_sub PROC
-    sub ax,bx
-    ret
-unsigned_sub ENDP
-;==================================================================
 
-SIGNED_ADD PROC
+PUBLIC add_cmd
+PUBLIC sub_cmd
+PUBLIC mul_cmd
+PUBLIC imul_cmd
+PUBLIC div_cmd
+PUBLIC idiv_cmd
+PUBLIC cmp_cmd
+
+;description
+add_cmd PROC
+    call double_input
+    mov bx,ax
+    push bx
+
+    call double_input
+    pop bx
+
     add ax,bx
+    call print_result
     ret
-SIGNED_ADD ENDP
-SIGNED_SUB PROC
-    sub ax,bx
+add_cmd ENDP
+
+;description
+sub_cmd PROC
+    call double_input
+    mov bx,ax
+    push bx
+
+    call double_input
+    pop bx
+    sub bx,ax
+
+    mov ax,bx
+    call print_result
     ret
-SIGNED_SUB ENDP
-SIGNED_MUL PROC
+sub_cmd ENDP
+
+;description
+mul_cmd PROC
+    call double_input
+    mov bx,ax
+    push bx
+
+    call double_input
+    pop bx
+
+    mul bx
+    call print_result
+    ret
+mul_cmd ENDP
+
+;description
+imul_cmd PROC
+    call double_input
+    mov bx,ax
+    push bx
+
+    call double_input
+    pop bx
+
     imul bx
+    call print_result
     ret
-SIGNED_MUL ENDP
-SIGNED_DIV PROC
-    idiv bx
+imul_cmd ENDP
+
+;description
+div_cmd PROC
+    call double_input
+    mov bx,ax
+    push bx
+
+    call double_input
+    pop bx
+
+    push dx
+    mov dx,0
+    div bx
+
+    call print_div
+    pop dx
     ret
-SIGNED_DIV ENDP
-;==================================================================
-COMPARE_SIGNED PROC
+div_cmd ENDP
+
+;description
+idiv_cmd PROC
+    call double_input
+    mov bx,ax          
+    push bx
+
+    call double_input  
+    pop bx             
+
+    push dx
+    cwd                
+    idiv bx            
+
+    call print_div
+    pop dx
+    ret
+idiv_cmd ENDP
+
+
+;description
+cmp_cmd PROC
+    call double_input
+    mov bx,ax
+    push bx
+
+    call double_input
     cmp ax,bx
+
+    jg greater
+    jl less
+    je equal
+
+    greater:
+        lea dx,cmp_gfi
+        mov ah,09h
+        int 21h
+    
+    less:
+        lea dx,cmp_gsi
+        mov ah,09h
+        int 21h
+
+    equal:
+        lea dx,cmp_eq
+        mov ah,09h
+        int 21h
+
+    pop bx
     ret
-COMPARE_SIGNED ENDP
-COMPARE_UNSIGNED PROC
-    cmp ax,bx
-    ret
-COMPARE_UNSIGNED ENDP
-;==================================================================
+cmp_cmd ENDP
+
 END

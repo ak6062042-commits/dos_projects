@@ -2,25 +2,88 @@
 .stack 100
 
 .data
-
+sign db ?
 .code
 
-    PUBLIC SD_PRINT
-    PUBLIC PRINT_
-    PUBLIC CONVERTER
+PUBLIC strcmp
+PUBLIC atoi
+PUBLIC itoa
+PUBLIC single_input
+PUBLIC double_input
+PUBLIC print_result
+PUBLIC print_div
+
+single_input PROC
+    mov ah,01h
+    int 21h
+    ret
+single_input ENDP
+
+
+double_input PROC
+
+   call single_input
+
+    cmp al,'-'
+    jne POSITIVE
+
+    mov sign,-1
+
+    call single_input
+    mov bl,al ; first digit -ve input
+
+    call single_input
+    mov cl,al ; second digit -ve
+
+    jmp BUILD
+
+    POSITIVE:
+        mov bl,al ; store first +ve digit
+        mov sign,1
+
+        call single_input
+        mov cl,al ; store second +ve digit
+
+    BUILD:
+        sub bl,030h ; convert to int 10th digit
+        sub cl,030h ; convert to int ones digit
+
+        mov al,bl ; lower register of ax stores 10s digit 
+        mov bl,10
+        mul bl ; mltiply and store in ax
+
+        mov ch,0 ; cl has been initialized mov ch,0 to clear unkonwn number now cx prepared
+        add ax,cx
+
+        mov cx,0
+
+        mov cl,sign
+        cmp cl,-1
+        je TO_NEG
+
+        mov cl,0
+        ret
+
+    TO_NEG:
+        neg ax
+        mov cl,0
+        ret
+    
+double_input ENDP
 
 ;description
-SD_PRINT PROC
+strcmp PROC
     ret
-SD_PRINT ENDP
+strcmp ENDP
 
 ;description
-CONVERTER PROC
+atoi PROC
     ret
-CONVERTER ENDP
+atoi ENDP
 
 ;description
-PRINT PROC
+itoa PROC
     ret
-PRINT ENDP
+itoa ENDP
 
+END

@@ -10,7 +10,7 @@ MiniOS/
 │   ├── main.asm        ; Entry point, command loop, dispatcher
 │   ├── input.asm       ; Keyboard input & parsing
 │   ├── command.asm     ; command matching & dispatch
-│   ├── screen.asm      ; cls, print, cursor, echo
+│   ├── screen.asm      ; cls, cursor, echo
 │   ├── arithmetic.asm  ; add, sub, mul, div, cmp
 │   ├── system.asm      ; time, date, delay, beep
 │   ├── history.asm     ; command history
@@ -38,3 +38,6 @@ String length
 ASCII → number (atoi)
 Number → ASCII (itoa)
 Tokenization (optional)
+
+
+# NOTE : REMAKE ENTIRE PROJECT
