@@ -12,5 +12,6 @@ main:
         call read_command
         call process_command
         call dispatch_command
+        jmp CMD
     
 end main

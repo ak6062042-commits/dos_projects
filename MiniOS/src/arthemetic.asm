@@ -126,19 +126,23 @@ cmp_cmd PROC
         lea dx,cmp_gfi
         mov ah,09h
         int 21h
+        jmp return
     
     less:
         lea dx,cmp_gsi
         mov ah,09h
         int 21h
+        jmp return
 
     equal:
         lea dx,cmp_eq
         mov ah,09h
         int 21h
+        jmp return
 
-    pop bx
-    ret
+    return:
+        pop bx
+        ret
 cmp_cmd ENDP
 
 END

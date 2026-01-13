@@ -5,10 +5,10 @@ echo ===============================
 echo Building MiniOS using TASM
 echo ===============================
 
-rem Go to project root
+REM Go to project root
 cd ..
 
-rem Ensure build directory exists
+REM Ensure build directory exists
 if not exist build mkdir build
 
 echo.

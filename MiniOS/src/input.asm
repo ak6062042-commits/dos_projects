@@ -6,10 +6,14 @@ cmd_bufer db CMD_MAXLEN dup(0)
 cmd_len db 0
 
 .code
-
+minios db 0ah,0dh, "MiniOS>$"
 PUBLIC read_command
 
 read_command PROC
+    mov dx,minios
+    mov ah,09h
+    int 21h
+
     lea di,cmd_bufer ;load address to di per input
     mov cx,CMD_MAXLEN ;for loop
     mov cmd_len,0 ;keep counting command length

@@ -3,6 +3,7 @@
 
 .data
 sign db ?
+enter db 0ah,0dh, "ENTER:$"
 .code
 
 PUBLIC strcmp
@@ -21,8 +22,11 @@ single_input ENDP
 
 
 double_input PROC
-
-   call single_input
+    lea dx,enter
+    mov ah,09h
+    int 21h
+    
+    call single_input
 
     cmp al,'-'
     jne POSITIVE
