@@ -17,21 +17,24 @@ commands db "add",0 ;ok 1
          db "beep",0 ;12
          db "exit",0 ;13
          db "help",0 ;14
+         db "history"0; 15
+         db 0 
 
-help db 0ah,0dh, "add-----add two numbers$",
-        0ah,0dh, "sub-----substract two numbers$",
-        0ah,0dh, "mul-----multiply two numbers$",
-        0ah,0dh, "div-----divide two numbers$",
-        0ah,0dh, "idiv-----perform signed division$",
-        0ah,0dh, "imul-----perform signed multiplication$",
-        0ah,0dh, "cls-----clear screen$",
-        0ah,0dh, "echo-----print a string on screen$",
-        0ah,0dh, "time-----display time on screen$",
-        0ah,0dh, "date-----display date on screen$",
-        0ah,0dh, "delay-----delay system for three seconds$",
-        0ah,0dh, "beep-----call system beep sound$",
-        0ah,0dh, "exit-----exit command line$",
-        0ah,0dh, "help-----information about available commands$"
+help db   0ah,0dh, "add-----add two numbers"
+     db   0ah,0dh, "sub-----substract two numbers"
+     db   0ah,0dh, "mul-----multiply two numbers"
+     db   0ah,0dh, "div-----divide two numbers"
+     db   0ah,0dh, "idiv-----perform signed division"
+     db   0ah,0dh, "imul-----perform signed multiplication"
+     db   0ah,0dh, "cls-----clear screen"
+     db   0ah,0dh, "echo-----print a string on screen"
+     db   0ah,0dh, "time-----display time on screen"
+     db   0ah,0dh, "date-----display date on screen"
+     db   0ah,0dh, "delay-----delay system for three seconds"
+     db   0ah,0dh, "beep-----call system beep sound"
+     db   0ah,0dh, "exit-----exit command line"
+     db   0ah,0dh, "help-----information about available commands"
+     db   0ah,0dh, "history-----show last 20 commands enterd$"
 
 .code
 

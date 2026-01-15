@@ -1,12 +1,12 @@
 .model small
 
 .data
+minios db 0ah,0dh, "MiniOS>$"
 CMD_MAXLEN equ 16
 cmd_bufer db CMD_MAXLEN dup(0)
 cmd_len db 0
 
 .code
-minios db 0ah,0dh, "MiniOS>$"
 PUBLIC read_command
 
 read_command PROC

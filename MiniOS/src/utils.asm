@@ -37,6 +37,7 @@ double_input PROC
     mov bl,al ; first digit -ve input
 
     call single_input
+    call atoi
     mov cl,al ; second digit -ve
 
     jmp BUILD
@@ -46,12 +47,10 @@ double_input PROC
         mov sign,1
 
         call single_input
+        call atoi
         mov cl,al ; store second +ve digit
 
     BUILD:
-        sub bl,030h ; convert to int 10th digit
-        sub cl,030h ; convert to int ones digit
-
         mov al,bl ; lower register of ax stores 10s digit 
         mov bl,10
         mul bl ; mltiply and store in ax
@@ -82,12 +81,24 @@ strcmp ENDP
 
 ;description
 atoi PROC
+    sub al,030h
     ret
 atoi ENDP
 
 ;description
 itoa PROC
+    add al,030h
     ret
 itoa ENDP
+
+;description
+print_result PROC
+    ret
+print_result ENDP
+
+;description
+print_div PROC
+    ret
+print_div ENDP
 
 END

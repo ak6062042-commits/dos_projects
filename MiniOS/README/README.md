@@ -26,20 +26,4 @@ MiniOS/
 
 
 
-🔹 command.asm → Policy / Control
-
-Knows which commands exist
-Decides which procedure to call
-Contains NO string logic
-Contains NO number conversion
-
-🔹 utils.asm → Mechanism / Helpers
-
-String compare (strcmp)
-String length
-ASCII → number (atoi)
-Number → ASCII (itoa)
-Tokenization (optional)
-
-
-# NOTE : REMAKE ENTIRE PROJECT
+# NOTE : REMAKE ENTIRE PROJECT (already did) 

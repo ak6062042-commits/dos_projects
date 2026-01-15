@@ -11,6 +11,16 @@ PUBLIC CLEAR_SCR
 PUBLIC ECHO
 PUBLIC exit_os
 
+;description
+clear_scr PROC
+    ret
+clear_scr ENDP
+
+;description
+echo PROC
+    ret
+echo ENDP
+
 exit_os PROC
     mov ah,4Ch
     int 21h

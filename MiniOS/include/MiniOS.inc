@@ -1,7 +1,7 @@
 ; ========= MiniOS Interface =========
 
 ; ---- main ----
-;call input processing dispatching
+;call: >input->processing->dispatching.
 
 ; ---- input ----
 EXTERN read_command:NEAR
@@ -14,6 +14,7 @@ EXTERN help_output
 EXTERN cls:NEAR
 EXTERN print_string:NEAR
 EXTERN exit_os:NEAR
+EXTERN echo:NEAR
 
 ; ---- arithmetic ----
 EXTERN add_cmd:NEAR
