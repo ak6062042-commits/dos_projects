@@ -1,18 +1,19 @@
-; ========= MiniOS Interface =========
+; ================= MiniOS Interface =================
+; This file is meant to be INCLUDED inside .CODE
 
-; ---- main ----
-;call: >input->processing->dispatching.
+IFNDEF __MINIOS_INC__
+__MINIOS_INC__ EQU 1
 
 ; ---- input ----
 EXTERN read_command:NEAR
+;EXTERN cmd_buffer:BYTE
 
 ; ---- command ----
 EXTERN process_command:NEAR
-EXTERN help_output
+EXTERN help_output:NEAR
 
 ; ---- screen ----
 EXTERN cls:NEAR
-EXTERN print_string:NEAR
 EXTERN exit_os:NEAR
 EXTERN echo:NEAR
 
@@ -44,5 +45,7 @@ EXTERN double_input:NEAR
 EXTERN print_result:NEAR
 EXTERN print_div:NEAR
 
-; ---- dispathcher ----
+; ---- dispatcher ----
 EXTERN dispatch_command:NEAR
+
+ENDIF

@@ -1,7 +1,12 @@
 .model small
-.data
-.code
 
+
+.data
+maxhistory equ 20
+SavedHistory db maxhistory dup(?)
+
+.code
+INCLUDE "C:\MiniOS\include\minios.inc"
 PUBLIC save_history
 PUBLIC show_history
 

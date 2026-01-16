@@ -1,28 +1,22 @@
 .model small
-.stack 100
+.stack 100h
 
 .data
 sign db ?
-enter db 0ah,0dh, "ENTER:$"
+msg db 0ah,0dh, "ENTER:$"
+output db 0ah,0dh, "RESUTL:$"
+
 .code
+INCLUDE "C:\MiniOS\include\minios.inc"
 
-PUBLIC strcmp
-PUBLIC atoi
-PUBLIC itoa
-PUBLIC single_input
-PUBLIC double_input
-PUBLIC print_result
-PUBLIC print_div
-
-single_input PROC
+single_input PROC NEAR
     mov ah,01h
     int 21h
     ret
 single_input ENDP
 
-
-double_input PROC
-    lea dx,enter
+double_input PROC NEAR
+    lea dx,msg
     mov ah,09h
     int 21h
     
@@ -34,71 +28,188 @@ double_input PROC
     mov sign,-1
 
     call single_input
-    mov bl,al ; first digit -ve input
+    call atoi
+    mov bl,al
 
     call single_input
     call atoi
-    mov cl,al ; second digit -ve
+    mov cl,al
 
     jmp BUILD
 
-    POSITIVE:
-        mov bl,al ; store first +ve digit
-        mov sign,1
+POSITIVE:
+    call atoi
+    mov bl,al
+    mov sign,1
 
-        call single_input
-        call atoi
-        mov cl,al ; store second +ve digit
+    call single_input
+    call atoi
+    mov cl,al
 
-    BUILD:
-        mov al,bl ; lower register of ax stores 10s digit 
-        mov bl,10
-        mul bl ; mltiply and store in ax
+BUILD:
+    mov al,bl
+    mov bl,10
+    mul bl
 
-        mov ch,0 ; cl has been initialized mov ch,0 to clear unkonwn number now cx prepared
-        add ax,cx
+    mov ch,0
+    add ax,cx
 
-        mov cx,0
+    cmp sign,-1
+    je TO_NEG
 
-        mov cl,sign
-        cmp cl,-1
-        je TO_NEG
+    ret
 
-        mov cl,0
-        ret
-
-    TO_NEG:
-        neg ax
-        mov cl,0
-        ret
-    
+TO_NEG:
+    neg ax
+    ret
 double_input ENDP
 
-;description
-strcmp PROC
-    ret
-strcmp ENDP
-
-;description
-atoi PROC
+atoi PROC NEAR
     sub al,030h
     ret
 atoi ENDP
 
-;description
-itoa PROC
+itoa PROC NEAR
     add al,030h
     ret
 itoa ENDP
 
-;description
-print_result PROC
+print_result PROC NEAR
+    push ax
+    push bx
+    push cx
+    push dx
+
+    ;lea dx, output
+    ;mov ah, 09h
+    ;int 21h
+
+    pop dx
+    pop cx
+    pop bx
+    pop ax    
+    
+    push ax   
+    push bx
+    push cx
+    push dx
+
+    cmp ax, 0
+    jge is_positive
+    
+    push ax
+    mov al, '-'
+    call print_one_digit
+    pop ax
+    neg ax
+
+is_positive:
+    mov cx, 0 
+    mov bx, 10
+
+convert_loop:
+    xor dx, dx
+    div bx
+    push dx
+    inc cx
+    cmp ax, 0
+    jne convert_loop
+
+print_loop:
+    pop dx
+    mov al, dl
+    call itoa
+    call print_one_digit
+    loop print_loop
+
+exit_print:
+    pop dx
+    pop cx
+    pop bx
+    pop ax
     ret
 print_result ENDP
 
-;description
-print_div PROC
+print_div PROC NEAR
+    push ax
+    push bx
+    push cx
+    push dx
+
+    mov cx, si
+    push dx
+
+    call print_result
+
+    mov al, '.'
+    call print_one_digit
+
+    pop ax
+    mov bx, 10
+    imul bx
+    idiv cx
+
+    cmp ax, 0
+    jge print_decimal
+    neg ax
+
+print_decimal:
+    call itoa
+    call print_one_digit
+
+    pop dx
+    pop cx
+    pop bx
+    pop ax
     ret
 print_div ENDP
+
+print_one_digit PROC
+    push ax
+    push dx
+
+    mov dl, al
+    mov ah, 02h
+    int 21h
+
+    pop dx
+    pop ax
+    ret
+print_one_digit ENDP
+
+
+;description
+new_line PROC NEAR
+    mov dl,0ah
+    mov ah,02h
+    int 21h
+    
+    mov dl,0dh
+    mov ah,02h
+    int 21h
+    ret
+new_line ENDP
+
+;description
+poutput PROC NEAR
+    push dx
+    push ax
+    lea dx, output
+    mov ah,09h 
+    int 21h
+    pop ax
+    pop dx
+    ret
+poutput ENDP
+
+PUBLIC print_one_digit
+PUBLIC atoi
+PUBLIC itoa
+PUBLIC single_input
+PUBLIC double_input
+PUBLIC print_result
+PUBLIC print_div
+PUBLIC new_line
+PUBLIC poutput
 
 END

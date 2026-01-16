@@ -1,36 +1,30 @@
 ;add, sub, mul, div, cmp for signed and unsigned 16 bit numbers
 .model small
 
+
 .data
 cmp_gfi db 0ah,0dh, "FIRST INPUT IS GREATER$"
 cmp_gsi db 0ah,0dh, "SECOND INPUT IN GREATER$"
 cmp_eq db 0ah,0dh, "BOTH INPUT ARE EQUAL$"
 .code
-
-PUBLIC add_cmd
-PUBLIC sub_cmd
-PUBLIC mul_cmd
-PUBLIC imul_cmd
-PUBLIC div_cmd
-PUBLIC idiv_cmd
-PUBLIC cmp_cmd
-
+INCLUDE "C:\MiniOS\include\minios.inc"
+EXTRN double_input:NEAR
+EXTRN print_result:NEAR
+EXTRN print_div:NEAR
+EXTRN poutput:NEAR
 ;description
-add_cmd PROC
+add_cmd PROC NEAR
     call double_input
-    mov bx,ax
-    push bx
-
-    call double_input
-    pop bx
-
-    add ax,bx
+    mov si, ax          
+    call double_input   
+    add ax, si
+    call poutput          
     call print_result
     ret
 add_cmd ENDP
 
 ;description
-sub_cmd PROC
+sub_cmd PROC NEAR
     call double_input
     mov bx,ax
     push bx
@@ -40,69 +34,58 @@ sub_cmd PROC
     sub bx,ax
 
     mov ax,bx
+    call poutput
     call print_result
     ret
 sub_cmd ENDP
 
 ;description
-mul_cmd PROC
+mul_cmd PROC NEAR
     call double_input
-    mov bx,ax
-    push bx
-
+    mov si, ax
     call double_input
-    pop bx
-
-    mul bx
+    mul si
+    call poutput             
     call print_result
     ret
 mul_cmd ENDP
 
 ;description
-imul_cmd PROC
+imul_cmd PROC NEAR
     call double_input
-    mov bx,ax
-    push bx
-
+    mov si, ax
     call double_input
-    pop bx
-
-    imul bx
+    imul si
+    call poutput
     call print_result
     ret
 imul_cmd ENDP
-
 ;description
-div_cmd PROC
+div_cmd PROC NEAR
     call double_input
-    mov bx,ax
-    push bx
-
+    push ax
     call double_input
-    pop bx
-
-    push dx
+    mov si,ax
+    pop ax
     mov dx,0
-    div bx
-
+    div si
+    call poutput
     call print_div
-    pop dx
     ret
 div_cmd ENDP
 
 ;description
-idiv_cmd PROC
+idiv_cmd PROC NEAR
     call double_input
-    mov bx,ax          
-    push bx
+    push ax     
 
-    call double_input  
-    pop bx             
-
+    call double_input          
+    mov si,ax
+    pop ax
     push dx
     cwd                
-    idiv bx            
-
+    idiv si            
+    call poutput
     call print_div
     pop dx
     ret
@@ -110,14 +93,13 @@ idiv_cmd ENDP
 
 
 ;description
-cmp_cmd PROC
+cmp_cmd PROC NEAR
     call double_input
-    mov bx,ax
+    mov si,ax
     push bx
 
     call double_input
-    cmp ax,bx
-
+    cmp si,ax
     jg greater
     jl less
     je equal
@@ -144,5 +126,13 @@ cmp_cmd PROC
         pop bx
         ret
 cmp_cmd ENDP
+
+PUBLIC add_cmd
+PUBLIC sub_cmd
+PUBLIC mul_cmd
+PUBLIC imul_cmd
+PUBLIC div_cmd
+PUBLIC idiv_cmd
+PUBLIC cmp_cmd
 
 END
