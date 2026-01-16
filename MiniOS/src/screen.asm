@@ -14,17 +14,15 @@ EXTRN new_line:NEAR
 
 ;description
 cls PROC NEAR
-    mov ax, 0600h    ; AH = 06h (Scroll), AL = 00h (Full Screen)
-    mov bh, 07h      ; BH = Attribute (07h is Light Gray on Black)
-    mov cx, 0000h    ; CH = Row 0, CL = Col 0 (Top Left)
-    mov dx, 184Fh    ; DH = Row 24, DL = Col 79 (Bottom Right for 80x25)
-    int 10h          ; Call BIOS video service
+    mov ax, 0600h    
+    mov bh, 07h      
+    mov cx, 0000h   
+    mov dx, 184Fh   
+    int 10h        
 
-    ; After clearing, the cursor stays at the bottom. 
-    ; We must reset it to the top-left (0,0).
-    mov ah, 02h      ; Function 02h: Set Cursor Position
-    mov bh, 00h      ; Page 0
-    mov dx, 0000h    ; Row 0, Col 0
+    mov ah, 02h      
+    mov bh, 00h      
+    mov dx, 0000h    
     int 10h
     ret
 cls ENDP

@@ -3,7 +3,7 @@
 
 .data
 maxhistory equ 20
-SavedHistory db maxhistory dup(?)
+SavedHistory dw maxhistory dup(?)
 
 .code
 INCLUDE "C:\MiniOS\include\minios.inc"

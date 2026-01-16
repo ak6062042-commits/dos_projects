@@ -13,9 +13,11 @@ INCLUDE "C:\MiniOS\include\minios.inc"
 EXTRN single_input:NEAR
 EXTRN atoi:NEAR
 EXTRN print_result:NEAR
+EXTRN new_line:NEAR
 
 ;description
 show_time PROC NEAR
+    call new_line
     mov ah, 2Ch
     int 21h
 
@@ -41,6 +43,7 @@ show_time ENDP
 
 ;description
 show_date PROC NEAR
+    call new_line
     mov ah, 2Ah
     int 21h
 
