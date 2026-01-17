@@ -1,5 +1,4 @@
 .model small
-.stack 100h
 
 .data
 sign db ?

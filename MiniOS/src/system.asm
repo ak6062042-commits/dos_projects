@@ -21,6 +21,7 @@ show_time PROC NEAR
     mov ah, 2Ch
     int 21h
 
+    xor ax,ax
     mov al, ch
     call print_result
 
@@ -28,6 +29,7 @@ show_time PROC NEAR
     mov ah, 02h
     int 21h
 
+    xor ax, ax
     mov al, cl
     call print_result
 
@@ -35,6 +37,7 @@ show_time PROC NEAR
     mov ah, 02h
     int 21h
 
+    xor ax, ax
     mov al, dh
     call print_result
 

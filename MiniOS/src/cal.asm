@@ -1,7 +1,6 @@
 ;add, sub, mul, div, cmp for signed and unsigned 16 bit numbers
 .model small
 
-
 .data
 cmp_gfi db 0ah,0dh, "FIRST INPUT IS GREATER$"
 cmp_gsi db 0ah,0dh, "SECOND INPUT IN GREATER$"

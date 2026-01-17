@@ -1,7 +1,6 @@
 ;conatins list of commands and compares commands recieved from input.asm
 .model small
 
-
 .data
 pos db 0
 
