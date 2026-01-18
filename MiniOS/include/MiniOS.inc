@@ -35,6 +35,7 @@ EXTERN beep:NEAR
 ; ---- history ----
 EXTERN save_history:NEAR
 EXTERN show_history:NEAR
+EXTRN global_counter:WORD
 
 ; ---- utils ----
 EXTERN strcmp:NEAR

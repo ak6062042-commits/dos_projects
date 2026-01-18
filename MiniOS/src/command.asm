@@ -48,6 +48,7 @@ help db   0ah,0dh, "add-----add two numbers"
 
 INCLUDE "C:\MiniOS\include\minios.inc"
 EXTRN single_input:NEAR
+EXTRN save_history:NEAR
 
 read_command PROC NEAR
     lea dx, minios
@@ -67,12 +68,14 @@ READ_LOOP:
     je DONE
 
     mov [di],al
+    call save_history
     inc di
     inc cmd_len
     jmp READ_LOOP
 
 DONE:
     mov byte ptr [di], 0 
+    call save_history
     ret
 read_command ENDP
 

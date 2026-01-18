@@ -24,6 +24,7 @@ EXTRN show_date:NEAR
 EXTRN delay:NEAR
 EXTRN beep:NEAR
 EXTRN show_history:NEAR
+EXTRN new_line:NEAR
 
 
 ;description
@@ -125,6 +126,7 @@ dispatch_command PROC NEAR
 
     datecmd:
         mov al,0
+        call new_line
         call show_date
         ret
 
